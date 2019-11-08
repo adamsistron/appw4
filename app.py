@@ -318,12 +318,7 @@ def update_pnl_vs_trade_type(exchange, leverage, start_date, end_date):
         'data': pnl_vs_trade_type(exchange, leverage, start_date, end_date),
         'layout': {
             'title': 'Pnl vs Trade type',
-<<<<<<< HEAD
-            'height': 450,
-             'width': 800
-=======
             'height': '450px'
->>>>>>> e40ee47b63170cf3651a9c55421e9f080bb9144d
         }
     }
 
