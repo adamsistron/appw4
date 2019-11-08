@@ -10,9 +10,7 @@ from sqlalchemy import create_engine
 
 engine = create_engine('postgresql://postgres:aoqr69Sx0jTjqf81CXCo@nps-demo-instance.chvlvyzq6xlg.us-east-1.rds.amazonaws.com/strategy')
 df = pd.read_sql("SELECT * from trades", engine.connect(), parse_dates=['Entry time'])
-
 df['YearMonth'] = df['Entry time'].dt.strftime('%Y-%m')
-
 
 app = dash.Dash(__name__, external_stylesheets=[
                 'https://codepen.io/uditagarwal/pen/oNvwKNP.css', 'https://codepen.io/uditagarwal/pen/YzKbqyV.css'])
@@ -381,8 +379,4 @@ def update_balance(exchange, leverage, start_date, end_date):
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-    app.run_server(debug=True, )
-=======
     app.run_server(debug=True, host='0.0.0.0')
->>>>>>> e40ee47b63170cf3651a9c55421e9f080bb9144d
