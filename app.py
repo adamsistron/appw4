@@ -10,6 +10,7 @@ from sqlalchemy import create_engine
 
 engine = create_engine('postgresql://postgres:aoqr69Sx0jTjqf81CXCo@nps-demo-instance.chvlvyzq6xlg.us-east-1.rds.amazonaws.com/strategy')
 df = pd.read_sql("SELECT * from trades", engine.connect(), parse_dates=['Entry time'])
+
 df['YearMonth'] = df['Entry time'].dt.strftime('%Y-%m')
 
 
@@ -310,7 +311,7 @@ def update_pnl_vs_trade_type(exchange, leverage, start_date, end_date):
         'layout': {
             'title': 'Pnl vs Trade type',
             'height': 450,
-            'width': 800
+             'width': 800
         }
     }
 
@@ -379,4 +380,4 @@ def update_balance(exchange, leverage, start_date, end_date):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=True, )
