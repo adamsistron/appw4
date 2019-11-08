@@ -371,7 +371,7 @@ def update_balance(exchange, leverage, start_date, end_date):
     return {
         'data': [go.Scatter(
             x=df4['Entry time'],
-            y=df4['Entry balance'],
+            y=df4['Exit balance'],
             name='Balance'
         )],
         'layout': {
