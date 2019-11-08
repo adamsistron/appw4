@@ -8,16 +8,9 @@ from sqlalchemy import create_engine
 
 # df = pd.read_csv('aggr.csv', parse_dates=['Entry time'])
 
-<<<<<<< HEAD
 engine = create_engine('postgresql://postgres:aoqr69Sx0jTjqf81CXCo@nps-demo-instance.chvlvyzq6xlg.us-east-1.rds.amazonaws.com/strategy')
 df = pd.read_sql("SELECT * from trades", engine.connect(), parse_dates=['Entry time'])
 
-=======
-engine = create_engine(
-    'postgresql://postgres:aoqr69Sx0jTjqf81CXCo@nps-demo-instance.chvlvyzq6xlg.us-east-1.rds.amazonaws.com/strategy')
-df = pd.read_sql("SELECT * from trades", engine.connect(),
-                 parse_dates=['Entry time'])
->>>>>>> e40ee47b63170cf3651a9c55421e9f080bb9144d
 df['YearMonth'] = df['Entry time'].dt.strftime('%Y-%m')
 
 
