@@ -6,10 +6,12 @@ import plotly.graph_objects as go
 import dash_table
 from sqlalchemy import create_engine
 
-#df = pd.read_csv('aggr.csv', parse_dates=['Entry time'])
+# df = pd.read_csv('aggr.csv', parse_dates=['Entry time'])
 
-engine = create_engine('postgresql://postgres:aoqr69Sx0jTjqf81CXCo@nps-demo-instance.chvlvyzq6xlg.us-east-1.rds.amazonaws.com/strategy')
-df = pd.read_sql("SELECT * from trades", engine.connect(), parse_dates=['Entry time'])
+engine = create_engine(
+    'postgresql://postgres:aoqr69Sx0jTjqf81CXCo@nps-demo-instance.chvlvyzq6xlg.us-east-1.rds.amazonaws.com/strategy')
+df = pd.read_sql("SELECT * from trades", engine.connect(),
+                 parse_dates=['Entry time'])
 df['YearMonth'] = df['Entry time'].dt.strftime('%Y-%m')
 
 
@@ -31,10 +33,10 @@ app.layout = html.Div(children=[
                 className="twelve columns card",
                 children=[
                     html.Div(
-                        className="padding row",
+                        className="row",
                         children=[
                             html.Div(
-                                className="two columns card",
+                                className="two columns indicator pretty_container",
                                 children=[
                                     html.H6("Select Exchange",),
                                     dcc.RadioItems(
@@ -49,7 +51,7 @@ app.layout = html.Div(children=[
                             ),
                             # Leverage Selector
                             html.Div(
-                                className="two columns card",
+                                className="two columns indicator pretty_container",
                                 children=[
                                     html.H6("Select Leverage"),
                                     dcc.RadioItems(
@@ -63,7 +65,7 @@ app.layout = html.Div(children=[
                                 ]
                             ),
                             html.Div(
-                                className="three columns card",
+                                className="three columns indicator pretty_container",
                                 children=[
                                     html.H6("Select a Date Range"),
                                     dcc.DatePickerRange(
@@ -106,7 +108,8 @@ app.layout = html.Div(children=[
                             ),
                         ]
                     )
-                ], style={'marginBottom': 0, 'marginTop': 0}),
+                ]
+            ),
             html.Div(
                 className="twelve columns card",
                 children=[
@@ -119,7 +122,7 @@ app.layout = html.Div(children=[
                 ]
             ),
             html.Div(
-                className="padding row",
+                className=" row",
                 children=[
                     html.Div(
                         className="six columns card",
@@ -158,7 +161,7 @@ app.layout = html.Div(children=[
                 ]
             ),
             html.Div(
-                className="padding row",
+                className="row",
                 children=[
                     dcc.Graph(
                         id="daily-btc",
@@ -309,8 +312,7 @@ def update_pnl_vs_trade_type(exchange, leverage, start_date, end_date):
         'data': pnl_vs_trade_type(exchange, leverage, start_date, end_date),
         'layout': {
             'title': 'Pnl vs Trade type',
-            'height': 450,
-            'width': 800
+            'height': '450px'
         }
     }
 
@@ -340,6 +342,7 @@ def pnl_vs_trade_type(exchange, leverage, start_date, end_date):
 )
 def update_daily_btc_price(exchange, leverage, start_date, end_date):
     df4 = filter_df(df, exchange, leverage, start_date, end_date)
+    df4 = df4.sort_values(by='Entry time')
     return {
         'data': [go.Scatter(
             x=df4['Entry time'],
@@ -348,10 +351,10 @@ def update_daily_btc_price(exchange, leverage, start_date, end_date):
         )],
         'layout': {
             'title': 'Daily BTC Price',
-            'height': 450,
-            'width': 800
+            'height': '450px'
         }
     }
+
 
 @app.callback(
     dash.dependencies.Output('balance', 'figure'),
@@ -364,6 +367,7 @@ def update_daily_btc_price(exchange, leverage, start_date, end_date):
 )
 def update_balance(exchange, leverage, start_date, end_date):
     df4 = filter_df(df, exchange, leverage, start_date, end_date)
+
     return {
         'data': [go.Scatter(
             x=df4['Entry time'],
@@ -372,11 +376,10 @@ def update_balance(exchange, leverage, start_date, end_date):
         )],
         'layout': {
             'title': 'Balance Overtime',
-            'height': 450,
-            'width': 800
+            'height': '450px'
         }
-    }    
+    }
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=True, host='0.0.0.0')
